@@ -1,11 +1,14 @@
 import { Switch, Route } from 'react-router-dom';
+import { ProductContextProvider } from '../contexts/ProductContext';
 
-import Cart from '../pages/Cart';
+import Dashboard from '../pages/Dashboard';
 
 const Routes = () => (
-  <Switch>
-    <Route exact path="/" component={Cart} />
-  </Switch>
+  <ProductContextProvider>
+    <Switch>
+      <Route exact path="/" component={Dashboard} />
+    </Switch>
+  </ProductContextProvider>
 );
 
 export default Routes;
