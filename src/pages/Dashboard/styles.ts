@@ -43,8 +43,10 @@ export const ContainerCart = styled.div`
 export const Cart = styled.div`
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     padding: 20px;
+
 
     width: 300px;
     height: 370px;

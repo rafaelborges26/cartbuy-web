@@ -1,19 +1,44 @@
-import React from 'react';
-import { FiShoppingCart } from 'react-icons/fi';
+/* eslint-disable react/prop-types */
+import React, { ReactElement, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FiShoppingCart, FiArrowLeft } from 'react-icons/fi';
 import { Container } from './styles';
 
-const Header: React.FC = () => (
-  <Container>
-    Market
+  type PropsHeader =
+    React.HTMLAttributes<HTMLDivElement> & {
+    type: 'cart' | 'back';
+    text?: string;
+  }
 
-    <div className="CartButton">
-      <button type="button">
-        Carrinho
-      </button>
-      <FiShoppingCart />
-    </div>
+const Header: React.FC<PropsHeader> = ({
+  type,
+  text,
+  ...rest
+}) => {
+  let path = '/';
+  if (type === 'cart') {
+    path = '/cart';
+  } else {
+    path = '/';
+  }
 
-  </Container>
-);
+  return (
+    <Container>
+      Market
 
+      <Link to={path}>
+        <div className="CartButton">
+          <button type="button">
+            {text}
+          </button>
+          { type === 'cart' && <FiShoppingCart /> }
+          { type === 'back' && <FiArrowLeft /> }
+        </div>
+
+      </Link>
+
+    </Container>
+
+  );
+};
 export default Header;
