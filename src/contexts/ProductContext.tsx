@@ -12,10 +12,22 @@ interface IProducts {
     price: string;
    }
 
+  interface IProductsCart {
+    id: string;
+    image: string;
+    name: string;
+    price: string;
+    quantity: number
+  }
+
 type ProductContextType = {
     products: IProducts[],
     handleSetCart: (id: string, name: string, price: string, image: string) => void,
-    itemsCart: IProducts[]
+    itemsCart: IProductsCart[],
+    handleDecreaseQuantity: (id: string) => void
+    handleIncreaseQuantity: (id: string) => void
+    handleRemoveCart: (id: string) => void
+
 }
 
 type ProductContextProps = {
@@ -25,51 +37,89 @@ type ProductContextProps = {
 export function ProductContextProvider(rest: ProductContextProps) {
   const [products, setProducts] = useState<IProducts[]>([]);
 
-  const [itemsCart, setItemsCart] = useState<IProducts[]>([]);
+  const [itemsCart, setItemsCart] = useState<IProductsCart[]>([]);
 
   const getProducts = useCallback(async () => {
     const response = await api.get('/');
     setProducts(response.data);
   }, []);
 
-  // const carts = localStorage.getItem('@CarrinhoDeCompras.cart');
-
-  // if (carts) {
-  //  cartsArray = JSON.parse(carts);
-  // }
-
   const handleSetCart = (id: string, name: string, price: string, image: string) => {
-    // const allCarts = [...cartsArray, idCart];
+    const itemFinded = itemsCart.find((item) => item.id === id);
 
-    // localStorage.setItem('@CarrinhoDeCompras.cart', JSON.stringify([...teste, idCart]));
-    // console.log('added', idCart);
+    if (!itemFinded) {
+      const cart: IProductsCart = {
+        id,
+        name,
+        price,
+        image,
+        quantity: 1,
+      };
 
-    const cart: IProducts = {
-      id,
-      name,
-      price,
-      image,
-    };
+      setItemsCart([...itemsCart, cart]);
+    }
+  };
 
-    setItemsCart([...itemsCart, cart]);
+  const handleDecreaseQuantity = (id: string) => {
+    const itemFinded = itemsCart.find((item) => item.id === id);
+
+    const itemsFilter = itemsCart.filter((item) => item.id !== id);
+
+    // se for pra zero
+    if (itemFinded?.quantity === 1) {
+      setItemsCart(itemsFilter);
+      return;
+    }
+
+    if (itemFinded?.quantity) {
+      itemFinded.quantity -= 1;
+    }
+
+    if (itemFinded) {
+      itemsFilter.push(itemFinded);
+    }
+
+    setItemsCart(itemsFilter);
+  };
+
+  const handleIncreaseQuantity = (id: string) => {
+    const itemFinded = itemsCart.find((item) => item.id === id);
+
+    const itemsFilter = itemsCart.filter((item) => item.id !== id);
+
+    if (itemFinded?.quantity) {
+      itemFinded.quantity += 1;
+    }
+
+    if (itemFinded) {
+      itemsFilter.push(itemFinded);
+    }
+
+    setItemsCart(itemsFilter);
+  };
+
+  const handleRemoveCart = (id: string) => {
+    const itemsFilter = itemsCart.filter((item) => item.id !== id);
+
+    setItemsCart(itemsFilter);
   };
 
   useEffect(() => {
     getProducts();
 
-    // const allProducts = localStorage.getItem('@CarrinhoDeCompras.cart');
-
-    // if (allProducts.length > 0) {
-    //  setItemsCart([...allProducts, '100']);
-    // }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(itemsCart);
-
   return (
-    <ProductContext.Provider value={{ products, handleSetCart, itemsCart }}>
+    <ProductContext.Provider value={{
+      products,
+      handleSetCart,
+      itemsCart,
+      handleDecreaseQuantity,
+      handleIncreaseQuantity,
+      handleRemoveCart,
+    }}
+    >
       {rest.children}
     </ProductContext.Provider>
   );

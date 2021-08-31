@@ -23,8 +23,8 @@ const Header: React.FC<PropsHeader> = ({
   }
 
   return (
-    <Container>
-      Market
+    <Container data-testid="Header-component">
+      <h2>Market</h2>
 
       <Link to={path}>
         <div className="CartButton">

@@ -1,13 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FiPlusCircle, FiMinusCircle, FiTrash2 } from 'react-icons/fi';
 import { useProduct } from '../../hooks/useProduct';
 import Header from '../../components/Header';
 import {
-  Container, Content, TitleCart, SubtitleCart, ContainerCarts, CartItem,
+  Container,
+  Content,
+  TitleCart,
+  SubtitleCart,
+  ContainerCarts,
+  CartItem,
+  DescriptionCart,
+  TextsCart,
+  EditItems,
+  QuantityCart,
 } from './styles';
 
 const Cart: React.FC = () => {
-  const { itemsCart } = useProduct();
+  const {
+    itemsCart,
+    handleDecreaseQuantity,
+    handleIncreaseQuantity,
+    handleRemoveCart,
+  } = useProduct();
 
   return (
     <Container>
@@ -15,12 +30,40 @@ const Cart: React.FC = () => {
       <Content>
         { itemsCart.length > 0 ? (
           <>
-            <TitleCart>Carrinho (0):</TitleCart>
-            <ContainerCarts>
-              <CartItem>
-                <img src={itemsCart[0].image} alt={itemsCart[0].name} />
-              </CartItem>
-            </ContainerCarts>
+            <TitleCart>
+              Carrinho (
+              {itemsCart.length}
+              )
+            </TitleCart>
+
+            { itemsCart.map((item) => (
+              <ContainerCarts>
+                <CartItem>
+                  <DescriptionCart>
+                    <img src={item.image} alt={item.name} />
+                    <TextsCart>
+                      <h5>{item.name}</h5>
+                      <span>
+                        R$
+                        {' '}
+                        {item.price}
+                      </span>
+                    </TextsCart>
+                  </DescriptionCart>
+                  <EditItems>
+                    <FiTrash2 onClick={() => handleRemoveCart(item.id)} />
+                    <QuantityCart>
+                      <FiMinusCircle
+                        onClick={() => handleDecreaseQuantity(item.id)}
+                      />
+                      {item.quantity}
+                      <FiPlusCircle onClick={() => handleIncreaseQuantity(item.id)} />
+                    </QuantityCart>
+                  </EditItems>
+
+                </CartItem>
+              </ContainerCarts>
+            )) }
           </>
         ) : (
           <>

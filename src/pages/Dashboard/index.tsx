@@ -31,13 +31,14 @@ const Dashboard: React.FC = () => {
               <Title>{product.name}</Title>
               <Price>
                 R$
-                <span> </span>
+                {' '}
                 {product.price}
               </Price>
               <AddCart
+                data-testid={`AddCart-${product.id}`}
                 onClick={
                   () => handleAddCart(product.id, product.name, product.price, product.image)
-}
+                }
               >
                 Adicionar ao Carrinho
               </AddCart>
