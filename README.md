@@ -6,16 +6,17 @@
 
 <p align="center">🚀 Aplicação web responsiva</p>
 
-<strong>Página inicial</strong>
+<strong>Página inicial:</strong>
 <img src="public/github/initial.png" alt="Página inicial" />
 
-<strong>Carrinho de compras</strong>
+<strong>Carrinho de compras:</strong>
 <img src="public/github/cart.png" alt="Carrinho de compras" />
 
-<strong>Página inicial responsiva</strong>
+<strong>Página inicial responsiva:</strong>
+<br/>
 <img src="public/github/initialResponsive.png" alt="Página inicial responsiva" />
 
-<strong>Carrinho de compras responsiva</strong>
+<strong>Carrinho de compras responsiva:</strong>
 <br/>
 <img src="public/github/cartResponsive.png" alt="Carrinho de compras responsiva" />
 
